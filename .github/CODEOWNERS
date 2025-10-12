@@ -1,0 +1,16 @@
+# 代码所有者
+# 这些用户将自动被要求审查影响这些文件的 PR
+
+# 全局所有者
+* @troubleduxj
+
+# 文档所有者
+/docs/ @troubleduxj
+
+# 配置文件所有者
+*.config.js @troubleduxj
+.github/ @troubleduxj
+
+# 服务器配置需要特别审查
+/server-config/ @troubleduxj
+
