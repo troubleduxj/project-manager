@@ -220,20 +220,18 @@ export const name = 'Docusaurus';
 
 ### 交互式组件
 
-```mdx
+使用 Tabs 组件：
+
+```jsx
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="npm" label="npm">
-    ```bash
     npm install
-    ```
   </TabItem>
   <TabItem value="yarn" label="Yarn">
-    ```bash
     yarn install
-    ```
   </TabItem>
 </Tabs>
 ```
