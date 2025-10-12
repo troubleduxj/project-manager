@@ -24,7 +24,7 @@ const sidebars = {
     {
       type: 'category',
       label: '指南',
-      items: ['guides/writing-docs', 'guides/deployment'],
+      items: ['guides/writing-docs', 'guides/deployment', 'guides/local-deployment'],
     },
   ],
 
