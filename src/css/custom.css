@@ -1,0 +1,89 @@
+/**
+ * 自定义样式
+ * 可以在这里覆盖Docusaurus的默认样式
+ */
+
+/* 主题颜色配置 */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* 暗黑模式颜色 */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* 自定义样式 */
+.hero {
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
+  color: white;
+}
+
+.hero__title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero__subtitle {
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+/* 代码块样式优化 */
+code {
+  border-radius: 4px;
+  padding: 0.15rem 0.3rem;
+}
+
+/* 表格样式优化 */
+table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead tr {
+  background-color: var(--ifm-color-primary-lightest);
+}
+
+[data-theme='dark'] table thead tr {
+  background-color: var(--ifm-color-primary-darkest);
+}
+
+/* 告示框样式优化 */
+.admonition {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+/* 侧边栏样式 */
+.menu__link--active {
+  font-weight: 600;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+  
+  .hero__subtitle {
+    font-size: 1.2rem;
+  }
+}
+

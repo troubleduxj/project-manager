@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 安装依赖
+        run: npm ci
+      
+      - name: 构建测试
+        run: npm run build
+      
+      - name: 检查构建结果
+        run: |
+          if [ -d "build" ]; then
+            echo "✅ 构建成功！"
+            ls -la build
+          else
+            echo "❌ 构建失败！"
+            exit 1
+          fi
+

@@ -1,0 +1,57 @@
+name: Deploy to Tencent Cloud
+
+on:
+  push:
+    branches:
+      - main  # 主分支推送时触发部署
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 获取完整历史，用于显示最后更新时间
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 安装依赖
+        run: npm ci
+      
+      - name: 构建项目
+        run: npm run build
+        
+      - name: 部署到腾讯云服务器
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: 22
+          SOURCE: "build/"
+          TARGET: "/var/www/docs-web"
+          EXCLUDE: "/node_modules/, /.git/"
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            cd /var/www/docs-web
+            ls -al
+            sudo systemctl reload nginx
+            echo "✅ 部署完成！"
+      
+      - name: 通知部署结果
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "🎉 部署成功！"
+          else
+            echo "❌ 部署失败！"
+          fi
+

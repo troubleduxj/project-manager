@@ -1,0 +1,38 @@
+name: Deploy Dev to Tencent Cloud
+
+on:
+  push:
+    branches:
+      - dev  # 开发分支推送时触发
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+      
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 安装依赖
+        run: npm ci
+      
+      - name: 构建项目
+        run: npm run build
+        
+      - name: 部署到开发服务器
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: "build/"
+          TARGET: "/var/www/docs-web-dev"
+          SCRIPT_AFTER: |
+            echo "✅ 开发环境部署完成！"
+
