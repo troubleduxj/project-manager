@@ -47,7 +47,7 @@
 
 ```bash
 # 下载脚本
-wget https://raw.githubusercontent.com/yourusername/docs-web/main/server-config/setup-server.sh
+wget https://raw.githubusercontent.com/troubleduxj/DOCS-WEB/main/server-config/setup-server.sh
 
 # 添加执行权限
 chmod +x setup-server.sh

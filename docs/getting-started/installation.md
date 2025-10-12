@@ -32,7 +32,7 @@ git --version
 首先，从 GitHub 克隆项目到本地：
 
 ```bash
-git clone https://github.com/yourusername/docs-web.git
+git clone https://github.com/troubleduxj/DOCS-WEB.git
 cd docs-web
 ```
 

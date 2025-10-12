@@ -37,8 +37,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/docs-web.git
-cd docs-web
+git clone https://github.com/troubleduxj/DOCS-WEB.git
+cd DOCS-WEB
 ```
 
 ### 2. 安装依赖
@@ -192,7 +192,7 @@ const config = {
   title: '我的文档中心',           // 网站标题
   tagline: '知识库与文档管理系统',   // 标语
   url: 'https://yourdomain.com',   // 域名
-  organizationName: 'yourusername', // GitHub 用户名
+  organizationName: 'troubleduxj', // GitHub 用户名
   projectName: 'docs-web',         // 仓库名
 };
 ```
@@ -358,8 +358,8 @@ sudo tail -f /var/log/nginx/error.log
 
 - 📖 查看[完整设计方案](./design.md)
 - 📖 查看[服务器配置文档](./server-config/README.md)
-- 🐛 [提交 Issue](https://github.com/yourusername/docs-web/issues)
-- 💬 [参与讨论](https://github.com/yourusername/docs-web/discussions)
+- 🐛 [提交 Issue](https://github.com/troubleduxj/DOCS-WEB/issues)
+- 💬 [参与讨论](https://github.com/troubleduxj/DOCS-WEB/discussions)
 
 ## 📄 许可证
 

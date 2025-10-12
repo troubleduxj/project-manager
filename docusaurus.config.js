@@ -15,8 +15,8 @@ const config = {
   baseUrl: '/',
 
   // GitHub pages 部署配置
-  organizationName: 'yourusername', // 你的 GitHub 用户名
-  projectName: 'docs-web', // 你的仓库名
+  organizationName: 'troubleduxj', // 你的 GitHub 用户名
+  projectName: 'DOCS-WEB', // 你的仓库名
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -47,13 +47,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // 编辑此页链接
-          editUrl: 'https://github.com/yourusername/docs-web/tree/main/',
+          editUrl: 'https://github.com/troubleduxj/DOCS-WEB/tree/main/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/yourusername/docs-web/tree/main/',
+          editUrl: 'https://github.com/troubleduxj/DOCS-WEB/tree/main/',
           blogSidebarTitle: '全部博文',
           blogSidebarCount: 'ALL',
         },
@@ -89,7 +89,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/yourusername/docs-web',
+            href: 'https://github.com/troubleduxj/DOCS-WEB',
             label: 'GitHub',
             position: 'right',
           },
@@ -113,7 +113,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/yourusername/docs-web',
+                href: 'https://github.com/troubleduxj/DOCS-WEB',
               },
             ],
           },

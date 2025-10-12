@@ -107,11 +107,11 @@ cat ~/.ssh/id_rsa  # 复制私钥
 ### 推送代码
 
 ```bash
-# 添加远程仓库
-git remote add origin https://github.com/yourusername/docs-web.git
+# 添加远程仓库（已完成）
+# git remote add origin https://github.com/troubleduxj/DOCS-WEB.git
 
-# 推送到 GitHub
-git push -u origin main
+# 推送到 GitHub（已完成）
+# git push -u origin main
 ```
 
 推送后，GitHub Actions 会自动构建并部署到服务器！
@@ -202,5 +202,5 @@ sudo tail -f /var/log/nginx/error.log
 
 **💡 提示**：建议先在本地完整测试后再部署到服务器。
 
-**❓ 需要帮助**：查看 [GitHub Issues](https://github.com/yourusername/docs-web/issues)
+**❓ 需要帮助**：查看 [GitHub Issues](https://github.com/troubleduxj/DOCS-WEB/issues)
 
