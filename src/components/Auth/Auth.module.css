@@ -1,0 +1,727 @@
+/* 容器和背景 */
+.authContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 动态背景 */
+.authBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.authBackgroundShapes {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(100px);
+  animation: float 20s infinite ease-in-out;
+}
+
+.shape1 {
+  width: 500px;
+  height: 500px;
+  top: -10%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.shape2 {
+  width: 400px;
+  height: 400px;
+  bottom: -10%;
+  right: -10%;
+  animation-delay: -7s;
+}
+
+.shape3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* 卡片样式 */
+.authCard {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(30px);
+  border-radius: 28px;
+  box-shadow: 
+    0 25px 70px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(102, 126, 234, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  padding: 56px;
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s ease;
+}
+
+.authCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.3),
+    0 15px 40px rgba(102, 126, 234, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 头部区域 */
+.authHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.authIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  padding: 18px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 10px 30px rgba(102, 126, 234, 0.4),
+    0 0 0 4px rgba(102, 126, 234, 0.1);
+  animation: iconBounce 3s infinite ease-in-out;
+  position: relative;
+}
+
+.authIcon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.authIcon svg {
+  width: 100%;
+  height: 100%;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+.authTitle {
+  color: #1a202c;
+  margin: 0 0 10px 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.authSubtitle {
+  color: #718096;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* 表单样式 */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formGroup label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.formGroup label svg {
+  width: 18px;
+  height: 18px;
+  color: #667eea;
+}
+
+.formGroup input {
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  font-size: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #f8fafc;
+  color: #2d3748;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.formGroup input::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+.formGroup input:hover {
+  border-color: #cbd5e0;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 
+    0 0 0 4px rgba(102, 126, 234, 0.12),
+    0 4px 12px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
+}
+
+/* 密码输入框包装器 */
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordInputWrapper input {
+  padding-right: 50px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #a0aec0;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.passwordToggle:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.passwordToggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 按钮样式 */
+.authButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 100%;
+  color: white;
+  border: none;
+  padding: 18px 32px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 12px;
+  box-shadow: 
+    0 6px 20px rgba(102, 126, 234, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.authButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.authButton:hover::before {
+  left: 100%;
+}
+
+.authButton svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+}
+
+.authButton:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 10px 30px rgba(102, 126, 234, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  background-position: 100% 0;
+}
+
+.authButton:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+.authButton:active:not(:disabled) {
+  transform: translateY(-1px) scale(1);
+  box-shadow: 
+    0 4px 15px rgba(102, 126, 234, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.authButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 加载动画 */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 分隔线 */
+.authDivider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 32px 0 24px;
+  color: #a0aec0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.authDivider::before,
+.authDivider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.authDivider span {
+  padding: 0 16px;
+}
+
+/* 演示账户卡片 */
+.demoAccounts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.demoAccountCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.demoAccountCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+  transition: left 0.5s;
+}
+
+.demoAccountCard:hover::before {
+  left: 100%;
+}
+
+.demoAccountCard:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+  transform: translateX(6px) scale(1.02);
+  box-shadow: 
+    0 6px 20px rgba(102, 126, 234, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.demoAccountCard:active {
+  transform: translateX(3px) scale(1);
+  box-shadow: 
+    0 3px 10px rgba(102, 126, 234, 0.15),
+    0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.demoAccountIcon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.demoAccountIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.demoAccountInfo {
+  flex: 1;
+}
+
+.demoAccountTitle {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.demoAccountCredentials {
+  font-size: 13px;
+  color: #718096;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.demoAccountArrow {
+  width: 24px;
+  height: 24px;
+  color: #a0aec0;
+  transition: all 0.3s ease;
+}
+
+.demoAccountCard:hover .demoAccountArrow {
+  color: #667eea;
+  transform: translateX(4px);
+}
+
+.demoAccountArrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 页脚 */
+.authFooter {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.authFooter p {
+  color: #718096;
+  margin: 0;
+  font-size: 15px;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 6px;
+  transition: all 0.2s ease;
+  padding: 4px 2px;
+  border-radius: 4px;
+}
+
+.linkButton:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* 消息提示 */
+.errorMessage,
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: messageSlide 0.3s ease-out;
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.errorMessage {
+  background-color: #fff5f5;
+  color: #c53030;
+  border: 2px solid #feb2b2;
+}
+
+.errorMessage svg {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  color: #fc8181;
+}
+
+.successMessage {
+  background-color: #f0fff4;
+  color: #22543d;
+  border: 2px solid #9ae6b4;
+}
+
+.successMessage svg {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  color: #48bb78;
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .authContainer {
+    padding: 16px;
+  }
+  
+  .authCard {
+    padding: 32px 24px;
+    border-radius: 20px;
+  }
+
+  .authIcon {
+    width: 64px;
+    height: 64px;
+    padding: 14px;
+  }
+  
+  .authTitle {
+    font-size: 28px;
+  }
+
+  .authSubtitle {
+    font-size: 15px;
+  }
+
+  .formGroup input {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  .authButton {
+    padding: 14px 20px;
+  }
+
+  .demoAccountCard {
+    padding: 14px;
+  }
+
+  .demoAccountIcon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .demoAccountIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  .authCard {
+    padding: 28px 20px;
+  }
+
+  .authTitle {
+    font-size: 24px;
+  }
+
+  .authSubtitle {
+    font-size: 14px;
+  }
+
+  .shape1,
+  .shape2,
+  .shape3 {
+    display: none;
+  }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .authCard {
+    background: rgba(26, 32, 44, 0.98);
+  }
+
+  .authTitle {
+    color: #f7fafc;
+  }
+
+  .authSubtitle {
+    color: #cbd5e0;
+  }
+
+  .formGroup label {
+    color: #e2e8f0;
+  }
+
+  .formGroup input {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
+  }
+
+  .formGroup input:hover {
+    border-color: #718096;
+    background-color: #374151;
+  }
+
+  .formGroup input:focus {
+    background-color: #374151;
+  }
+
+  .demoAccountCard {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-color: #4a5568;
+  }
+
+  .demoAccountCard:hover {
+    background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+    border-color: #667eea;
+  }
+
+  .demoAccountTitle {
+    color: #f7fafc;
+  }
+
+  .demoAccountCredentials {
+    color: #cbd5e0;
+  }
+
+  .authFooter {
+    border-top-color: #4a5568;
+  }
+
+  .authFooter p {
+    color: #cbd5e0;
+  }
+
+  .authDivider {
+    color: #a0aec0;
+  }
+
+  .authDivider::before,
+  .authDivider::after {
+    border-bottom-color: #4a5568;
+  }
+}

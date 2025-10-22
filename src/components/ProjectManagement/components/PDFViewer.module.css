@@ -1,0 +1,587 @@
+/* PDF 预览器样式 */
+
+.pdfViewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f5f6fa;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+.pdfViewer.fullscreen {
+  z-index: 9999;
+}
+
+/* 工具栏 */
+.toolbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e1e5e9;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 60px;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.toolbarCenter {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 2;
+  justify-content: center;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1e21;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 按钮样式 */
+.toolbarBtn,
+.navBtn,
+.zoomBtn,
+.actionBtn,
+.resetBtn {
+  background: #f8f9fa;
+  border: 1px solid #e1e5e9;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5d6c7d;
+}
+
+.toolbarBtn:hover,
+.navBtn:hover,
+.zoomBtn:hover,
+.actionBtn:hover,
+.resetBtn:hover {
+  background: #e9ecef;
+  border-color: #d1d7dd;
+  color: #1c1e21;
+}
+
+.toolbarBtn:disabled,
+.navBtn:disabled,
+.zoomBtn:disabled,
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f8f9fa;
+}
+
+.resetBtn {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 页面导航 */
+.pageNavigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.pageInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 8px;
+}
+
+.pageInput {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid #d1d7dd;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.pageInput:focus {
+  outline: none;
+  border-color: #2e8555;
+  box-shadow: 0 0 0 2px rgba(46, 133, 85, 0.1);
+}
+
+.pageTotal {
+  font-size: 14px;
+  color: #5d6c7d;
+  font-weight: 500;
+}
+
+/* 缩放控制 */
+.zoomControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.zoomLevel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c1e21;
+  min-width: 50px;
+  text-align: center;
+  margin: 0 8px;
+}
+
+/* 搜索框 */
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 200px;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #d1d7dd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #2e8555;
+  box-shadow: 0 0 0 2px rgba(46, 133, 85, 0.1);
+}
+
+.searchBox svg {
+  position: absolute;
+  left: 12px;
+  color: #5d6c7d;
+  pointer-events: none;
+}
+
+/* PDF 内容区域 */
+.pdfContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: #e9ecef;
+  padding: 20px;
+}
+
+.documentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* 加载状态 */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: #5d6c7d;
+  font-size: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e1e5e9;
+  border-top: 3px solid #2e8555;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: #d73a49;
+  text-align: center;
+  max-width: 400px;
+}
+
+.error svg {
+  color: #d73a49;
+}
+
+.errorMessage {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.retryBtn {
+  background: #2e8555;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.retryBtn:hover {
+  background: #1b5e20;
+}
+
+/* PDF 预览不可用时的回退界面 */
+.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+}
+
+.fallbackContent {
+  text-align: center;
+  color: #5d6c7d;
+  max-width: 400px;
+}
+
+.fallbackContent svg {
+  margin-bottom: 20px;
+  color: #d1d7dd;
+}
+
+.fallbackContent h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  color: #1c1e21;
+}
+
+.fallbackContent p {
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.downloadBtn {
+  background: #2e8555;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.downloadBtn:hover {
+  background: #1b5e20;
+}
+
+/* 简化版 PDF 预览器样式 */
+.embedContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #ffffff;
+}
+
+.fallbackActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* 加载状态 */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  color: #5d6c7d;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e1e5e9;
+  border-top: 4px solid #2e8555;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+}
+
+.errorContent {
+  text-align: center;
+  color: #d73a49;
+  max-width: 400px;
+}
+
+.errorContent svg {
+  margin-bottom: 20px;
+  color: #d73a49;
+}
+
+.errorContent h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  color: #d73a49;
+}
+
+.errorContent p {
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 快捷键提示 */
+.shortcuts {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  color: #2c3e50;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.shortcuts:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.shortcutItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shortcuts kbd {
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  color: #1a202c;
+  font-weight: 600;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  min-width: 28px;
+  text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .toolbarCenter {
+    order: 3;
+    flex: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  
+  .toolbarRight {
+    flex: auto;
+  }
+  
+  .searchInput {
+    width: 150px;
+  }
+  
+  .pageNavigation {
+    gap: 4px;
+  }
+  
+  .zoomControls {
+    gap: 4px;
+  }
+  
+  .shortcuts {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 11px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .pdfContent {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    max-width: 150px;
+  }
+  
+  .searchInput {
+    width: 120px;
+  }
+  
+  .pageInput {
+    width: 50px;
+  }
+  
+  .shortcuts {
+    gap: 8px;
+    font-size: 10px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .toolbar,
+  .shortcuts {
+    display: none;
+  }
+  
+  .pdfContent {
+    padding: 0;
+    background: white;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .toolbar {
+    border-bottom-color: #000000;
+  }
+  
+  .toolbarBtn,
+  .navBtn,
+  .zoomBtn,
+  .actionBtn,
+  .resetBtn {
+    border-color: #000000;
+  }
+  
+  .searchInput,
+  .pageInput {
+    border-color: #000000;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .toolbarBtn,
+  .navBtn,
+  .zoomBtn,
+  .actionBtn,
+  .resetBtn,
+  .searchInput,
+  .pageInput,
+  .retryBtn,
+  .shortcuts {
+    transition: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}

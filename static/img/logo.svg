@@ -1,11 +1,79 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- 白色背景渐变 -->
+    <linearGradient id="whiteBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8f9ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 图标主色渐变 -->
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
     </linearGradient>
+    
+    <!-- 阴影滤镜 -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 内阴影效果 -->
+    <filter id="innerShadow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
+      <feOffset dx="0" dy="1" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.1"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="100" height="100" rx="20" fill="url(#grad1)"/>
-  <text x="50" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">D</text>
+  
+  <!-- 背景白色圆角矩形 -->
+  <rect width="100" height="100" rx="22" fill="url(#whiteBg)" filter="url(#shadow)"/>
+  
+  <!-- 边框装饰 -->
+  <rect x="1" y="1" width="98" height="98" rx="21" fill="none" stroke="url(#iconGrad)" stroke-width="2" opacity="0.15"/>
+  
+  <!-- 主图标组 - 项目管理看板 -->
+  <g transform="translate(50, 50)">
+    <!-- 左侧列 - 待办（蓝色）-->
+    <g transform="translate(-22, -18)">
+      <rect x="0" y="0" width="12" height="36" rx="2" fill="url(#iconGrad)" opacity="0.1"/>
+      <rect x="2" y="3" width="8" height="6" rx="1" fill="#667eea"/>
+      <rect x="2" y="11" width="8" height="6" rx="1" fill="#667eea" opacity="0.7"/>
+      <rect x="2" y="19" width="8" height="6" rx="1" fill="#667eea" opacity="0.4"/>
+    </g>
+    
+    <!-- 中间列 - 进行中（绿色）-->
+    <g transform="translate(-6, -18)">
+      <rect x="0" y="0" width="12" height="36" rx="2" fill="url(#iconGrad)" opacity="0.1"/>
+      <rect x="2" y="3" width="8" height="6" rx="1" fill="#10b981"/>
+      <rect x="2" y="11" width="8" height="6" rx="1" fill="#10b981" opacity="0.7"/>
+    </g>
+    
+    <!-- 右侧列 - 已完成（橙色）-->
+    <g transform="translate(10, -18)">
+      <rect x="0" y="0" width="12" height="36" rx="2" fill="url(#iconGrad)" opacity="0.1"/>
+      <rect x="2" y="3" width="8" height="6" rx="1" fill="#f59e0b"/>
+    </g>
+    
+    <!-- 对勾标记 - 表示完成 -->
+    <g transform="translate(14, -12)" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round">
+      <path d="M 0,3 L 2,5 L 6,0"/>
+    </g>
+  </g>
+  
+  <!-- 装饰性小点 -->
+  <circle cx="15" cy="15" r="2" fill="url(#iconGrad)" opacity="0.3"/>
+  <circle cx="85" cy="85" r="2" fill="url(#iconGrad)" opacity="0.3"/>
 </svg>
-

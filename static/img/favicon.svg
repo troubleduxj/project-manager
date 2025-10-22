@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <!-- 主渐变 -->
+    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="32" height="32" rx="6" fill="url(#favGrad)"/>
+  
+  <!-- 简化的看板图标 -->
+  <g transform="translate(16, 16)">
+    <!-- 左列 -->
+    <rect x="-10" y="-8" width="5" height="16" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="-9" y="-7" width="3" height="3" rx="0.5" fill="#667eea"/>
+    <rect x="-9" y="-2" width="3" height="3" rx="0.5" fill="#667eea" opacity="0.6"/>
+    <rect x="-9" y="3" width="3" height="3" rx="0.5" fill="#667eea" opacity="0.3"/>
+    
+    <!-- 中列 -->
+    <rect x="-2.5" y="-8" width="5" height="16" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="-1.5" y="-7" width="3" height="3" rx="0.5" fill="#10b981"/>
+    <rect x="-1.5" y="-2" width="3" height="3" rx="0.5" fill="#10b981" opacity="0.6"/>
+    
+    <!-- 右列 -->
+    <rect x="5" y="-8" width="5" height="16" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="6" y="-7" width="3" height="3" rx="0.5" fill="#f59e0b"/>
+    
+    <!-- 对勾 -->
+    <g transform="translate(6.5, -4)" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round">
+      <path d="M 0,1.5 L 1,2.5 L 3,0"/>
+    </g>
+  </g>
+</svg>
+

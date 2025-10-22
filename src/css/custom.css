@@ -1,9 +1,10 @@
 /**
- * 自定义样式
- * 可以在这里覆盖Docusaurus的默认样式
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
  */
 
-/* 主题颜色配置 */
+/* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
@@ -16,7 +17,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* 暗黑模式颜色 */
+/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   --ifm-color-primary: #25c2a0;
   --ifm-color-primary-dark: #21af90;
@@ -28,62 +29,48 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-/* 自定义样式 */
-.hero {
-  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
-  color: white;
+/* Docusaurus 首页样式已恢复正常 */
+
+/* 隐藏 YAML front matter 显示 */
+.hide-yaml-frontmatter {
+  display: none !important;
 }
 
-.hero__title {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-.hero__subtitle {
-  font-size: 1.5rem;
-  opacity: 0.9;
-}
-
-/* 代码块样式优化 */
-code {
-  border-radius: 4px;
-  padding: 0.15rem 0.3rem;
-}
-
-/* 表格样式优化 */
-table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table thead tr {
-  background-color: var(--ifm-color-primary-lightest);
-}
-
-[data-theme='dark'] table thead tr {
-  background-color: var(--ifm-color-primary-darkest);
-}
-
-/* 告示框样式优化 */
-.admonition {
-  margin-bottom: 1rem;
+/* 改进代码块样式 */
+.theme-code-block {
+  margin: 1.5rem 0;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 侧边栏样式 */
-.menu__link--active {
+.theme-code-block .prism-code {
+  background: #f8f9fa;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 代码块头部样式 */
+.theme-code-block-title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 16px;
+  font-size: 13px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .hero__title {
-    font-size: 2rem;
-  }
-  
-  .hero__subtitle {
-    font-size: 1.2rem;
-  }
+.theme-code-block-title::before {
+  content: '';
+  display: inline-flex;
+  gap: 4px;
 }
 
+.theme-code-block-title::before {
+  content: '● ● ●';
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}

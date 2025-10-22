@@ -1,0 +1,325 @@
+/* Markdown 查看器样式 - 借鉴 Docusaurus 设计 */
+
+.markdownContent {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.7;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 段落样式 */
+.markdownContent :global(.markdown-paragraph) {
+  margin: 16px 0;
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+/* 标题样式 */
+.markdownContent :global(.markdown-heading) {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #2c3e50;
+}
+
+.markdownContent :global(.markdown-h1) {
+  font-size: 2.5rem;
+  border-bottom: 2px solid #2e8555;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.markdownContent :global(.markdown-h2) {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+}
+
+.markdownContent :global(.markdown-h3) {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+}
+
+.markdownContent :global(.markdown-h4) {
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+/* 代码块样式 */
+.markdownContent :global(.markdown-code-block) {
+  margin: 24px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.markdownContent :global(.code-block-header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.markdownContent :global(.code-block-dots) {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.markdownContent :global(.dot) {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.markdownContent :global(.dot.red) {
+  background: #ff5f56;
+}
+
+.markdownContent :global(.dot.yellow) {
+  background: #ffbd2e;
+}
+
+.markdownContent :global(.dot.green) {
+  background: #27ca3f;
+}
+
+.markdownContent :global(.code-block-lang) {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+}
+
+.markdownContent :global(.code-block-copy) {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.markdownContent :global(.code-block-copy:hover) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.markdownContent :global(.code-block-content) {
+  background: #f8f9fa;
+  padding: 20px;
+  margin: 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #24292e;
+}
+
+/* 行内代码样式 */
+.markdownContent :global(.markdown-inline-code) {
+  background: #f1f5f9;
+  color: #d73a49;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 0.85em;
+  border: 1px solid #e1e4e8;
+}
+
+/* 列表样式 */
+.markdownContent :global(.markdown-list) {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.markdownContent :global(.markdown-list-item) {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+/* 表格样式 */
+.markdownContent :global(.markdown-table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.markdownContent :global(.markdown-table-header) {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #2e8555;
+  color: #2c3e50;
+}
+
+.markdownContent :global(.markdown-table-cell) {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+/* 引用块样式 */
+.markdownContent :global(.markdown-blockquote) {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-left: 4px solid #2e8555;
+  border-radius: 0 6px 6px 0;
+  color: #5a6c7d;
+  font-style: italic;
+}
+
+/* 分割线样式 */
+.markdownContent :global(.markdown-divider) {
+  margin: 32px 0;
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+}
+
+/* 链接样式 */
+.markdownContent :global(.markdown-link) {
+  color: #2e8555;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.markdownContent :global(.markdown-link:hover) {
+  border-bottom-color: #2e8555;
+  background: rgba(46, 133, 85, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* 图片样式 */
+.markdownContent :global(.markdown-image) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+}
+
+/* 文本样式 */
+.markdownContent :global(.markdown-bold) {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.markdownContent :global(.markdown-italic) {
+  font-style: italic;
+  color: #5a6c7d;
+}
+
+.markdownContent :global(.markdown-strikethrough) {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.markdownContent :global(.markdown-highlight) {
+  background: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #856404;
+}
+
+
+/* 图片查看器 */
+.imageViewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 文本查看器 */
+.textViewer {
+  background: #ffffff;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.textContent {
+  padding: 20px;
+  margin: 0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #24292f;
+  background: #f8f9fa;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .markdownContent {
+    padding: 0 16px;
+  }
+  
+  .markdownContent :global(.markdown-h1) {
+    font-size: 2rem;
+  }
+  
+  .markdownContent :global(.markdown-h2) {
+    font-size: 1.5rem;
+  }
+  
+  .markdownContent :global(.code-block-header) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .markdownContent :global(.code-block-content) {
+    padding: 16px;
+    font-size: 13px;
+  }
+  
+  .markdownContent :global(.markdown-table) {
+    font-size: 14px;
+  }
+  
+  .markdownContent :global(.markdown-table-header),
+  .markdownContent :global(.markdown-table-cell) {
+    padding: 8px 12px;
+  }
+  
+  .rendererToggle {
+    padding: 12px 16px;
+    gap: 6px;
+  }
+  
+  .toggleBtn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .textContent {
+    padding: 16px;
+    font-size: 13px;
+  }
+}

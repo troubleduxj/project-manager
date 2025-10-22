@@ -73,3 +73,66 @@ lerna-debug.log*
 *.bak
 *.backup
 
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+server/project_management.db
+
+# 上传文件目录
+server/uploads/
+uploads/
+
+# 日志目录
+logs/
+*.log
+
+# PM2 日志和进程文件
+.pm2/
+pids/
+*.pid
+*.seed
+
+# 敏感配置（保留示例文件）
+server/config/email.json
+
+# 临时测试脚本
+test-*.js
+check-*.js
+fix-*.js
+verify-*.js
+*-test.js
+
+# 临时文档
+*_SUMMARY.md
+*_UPDATE.md
+*_FIX*.md
+*_GUIDE.md
+*_IMPLEMENTATION.md
+*_OPTIMIZATION.md
+*_ENHANCEMENT.md
+*_PROGRESS.md
+*_COMPLETE.md
+
+# 系统备份文件
+*.js.backup
+*.css.backup
+*.json.backup
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
