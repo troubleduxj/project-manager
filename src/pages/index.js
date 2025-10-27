@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react';
-import { useHistory } from '@docusaurus/router';
+import React from 'react';
+import ProjectManagementApp from '../components/ProjectManagement/ProjectManagementApp';
+import '../css/app.css';
 
 export default function Home() {
-  const history = useHistory();
-
-  useEffect(() => {
-    // 直接跳转到项目管理页面
-    history.replace('/project-management');
-  }, [history]);
-
-  return null;
+  // 直接渲染项目管理系统，无需跳转
+  return <ProjectManagementApp />;
 }
