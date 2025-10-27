@@ -29,7 +29,47 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-/* Docusaurus 首页样式已恢复正常 */
+/* ============================================
+   隐藏 Docusaurus 框架元素，使用纯项目管理界面
+   ============================================ */
+
+/* 隐藏导航栏 */
+nav.navbar {
+  display: none !important;
+}
+
+/* 隐藏页脚 */
+footer.footer {
+  display: none !important;
+}
+
+/* 移除主内容区域的内边距，让应用占满全屏 */
+.main-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+main.docMainContainer_node_modules-\@docusaurus-theme-classic-lib-theme-DocPage-Layout-Main-styles-module,
+main[class*="docMainContainer"] {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+/* 移除容器的最大宽度限制 */
+.container {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* 让页面内容占满全屏 */
+html,
+body,
+#__docusaurus {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 /* 隐藏 YAML front matter 显示 */
 .hide-yaml-frontmatter {

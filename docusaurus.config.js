@@ -49,71 +49,14 @@ const config = {
     ({
       image: 'img/logo.svg',
       
+      // 隐藏导航栏
       navbar: {
-        title: '项目管理系统',
-        logo: {
-          alt: 'Project Manager Logo',
-          src: 'img/logo.svg',
-        },
-        items: [
-          {
-            to: '/project-management',
-            label: '📊 项目管理',
-            position: 'left',
-          },
-          {
-            href: 'https://github.com/troubleduxj/project-manager',
-            label: 'GitHub',
-            position: 'right',
-          },
-        ],
+        hideOnScroll: false,
+        items: [],
       },
       
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: '功能模块',
-            items: [
-              {
-                label: '项目管理',
-                to: '/project-management',
-              },
-            ],
-          },
-          {
-            title: '文档',
-            items: [
-              {
-                label: '快速开始',
-                href: 'https://github.com/troubleduxj/project-manager#-快速开始',
-              },
-              {
-                label: '系统设计',
-                href: 'https://github.com/troubleduxj/project-manager/blob/main/docs/design.md',
-              },
-              {
-                label: '数据库设计',
-                href: 'https://github.com/troubleduxj/project-manager/blob/main/docs/database.md',
-              },
-            ],
-          },
-          {
-            title: '更多',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/troubleduxj/project-manager',
-              },
-              {
-                label: '问题反馈',
-                href: 'https://github.com/troubleduxj/project-manager/issues',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} Project Manager. Built with ❤️`,
-      },
+      // 隐藏页脚
+      footer: undefined,
       
       prism: {
         theme: lightCodeTheme,
