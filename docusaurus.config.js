@@ -12,7 +12,7 @@ const config = {
 
   // 生产环境 URL
   url: 'https://troubleduxj.github.io',
-  baseUrl: '/project-manager/',
+  baseUrl: '/', // 本地开发使用 /，部署时改为 /project-manager/
 
   // GitHub pages 部署配置
   organizationName: 'troubleduxj',
