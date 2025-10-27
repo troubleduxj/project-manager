@@ -77,90 +77,95 @@ const ProjectDashboard = ({ user, onLogout }) => {
   }
 
   return (
-    <div className={styles.dashboard}>
-      {/* 顶部导航栏 */}
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1 className={styles.title}>项目管理系统</h1>
-          <div className={styles.userInfo}>
-            <span className={styles.welcome}>
-              欢迎，{user.full_name || user.username}
-            </span>
-            <span className={styles.role}>
-              ({user.role === 'admin' ? '管理员' : '客户'})
-            </span>
-            <button 
-              className={styles.logoutButton}
-              onClick={onLogout}
-            >
-              退出登录
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* 主要内容区域 */}
-      <main className={styles.mainContent}>
-        {error && (
-          <div className={styles.errorMessage}>
-            {error}
-            <button onClick={() => setError('')}>×</button>
-          </div>
-        )}
-
-        {/* 侧边栏 */}
-        <aside className={styles.sidebar}>
-          <nav className={styles.nav}>
-            <button 
-              className={`${styles.navButton} ${!selectedProject && !showCreateProject ? styles.active : ''}`}
-              onClick={handleBackToList}
-            >
-              📊 项目列表
-            </button>
-            
-            {user.role === 'admin' && (
+    <>
+      <div className={styles.dashboard}>
+        {/* 顶部导航栏 */}
+        <header className={styles.header}>
+          <div className={styles.headerContent}>
+            <h1 className={styles.title}>项目管理系统</h1>
+            <div className={styles.userInfo}>
+              <span className={styles.welcome}>
+                欢迎，{user.full_name || user.username}
+              </span>
+              <span className={styles.role}>
+                ({user.role === 'admin' ? '管理员' : '客户'})
+              </span>
               <button 
-                className={`${styles.navButton} ${showCreateProject ? styles.active : ''}`}
-                onClick={handleCreateProject}
+                className={styles.logoutButton}
+                onClick={onLogout}
               >
-                ➕ 创建项目
+                退出登录
               </button>
-            )}
-            
-            {selectedProject && (
-              <div className={styles.selectedProject}>
-                <h4>当前项目</h4>
-                <p>{selectedProject.name}</p>
-              </div>
-            )}
-          </nav>
-        </aside>
+            </div>
+          </div>
+        </header>
 
-        {/* 内容区域 */}
-        <section className={styles.content}>
-          {showCreateProject ? (
-            <CreateProject 
-              onProjectCreated={handleProjectCreated}
-              onCancel={handleBackToList}
-            />
-          ) : selectedProject ? (
-            <ProjectDetail 
-              project={selectedProject}
-              user={user}
-              onProjectUpdated={handleProjectUpdated}
-              onBack={handleBackToList}
-            />
-          ) : (
-            <ProjectList 
-              projects={projects}
-              user={user}
-              onProjectSelect={handleProjectSelect}
-              onRefresh={fetchProjects}
-            />
+        {/* 主要内容区域 */}
+        <main className={styles.mainContent}>
+          {error && (
+            <div className={styles.errorMessage}>
+              {error}
+              <button onClick={() => setError('')}>×</button>
+            </div>
           )}
-        </section>
-      </main>
-    </div>
+
+          {/* 侧边栏 */}
+          <aside className={styles.sidebar}>
+            <nav className={styles.nav}>
+              <button 
+                className={`${styles.navButton} ${!selectedProject && !showCreateProject ? styles.active : ''}`}
+                onClick={handleBackToList}
+              >
+                📊 项目列表
+              </button>
+              
+              {user.role === 'admin' && (
+                <button 
+                  className={`${styles.navButton} ${showCreateProject ? styles.active : ''}`}
+                  onClick={handleCreateProject}
+                >
+                  ➕ 创建项目
+                </button>
+              )}
+              
+              {selectedProject && (
+                <div className={styles.selectedProject}>
+                  <h4>当前项目</h4>
+                  <p>{selectedProject.name}</p>
+                </div>
+              )}
+            </nav>
+          </aside>
+
+          {/* 内容区域 */}
+          <section className={styles.content}>
+            {selectedProject ? (
+              <ProjectDetail 
+                project={selectedProject}
+                user={user}
+                onProjectUpdated={handleProjectUpdated}
+                onBack={handleBackToList}
+              />
+            ) : (
+              <ProjectList 
+                projects={projects}
+                user={user}
+                onProjectSelect={handleProjectSelect}
+                onRefresh={fetchProjects}
+              />
+            )}
+          </section>
+        </main>
+      </div>
+
+      {/* 全屏对话框 - 放在最外层 */}
+      {showCreateProject && (
+        <CreateProject 
+          onProjectCreated={handleProjectCreated}
+          onCancel={handleBackToList}
+        />
+      )}
+    </>
   );
 };
 
