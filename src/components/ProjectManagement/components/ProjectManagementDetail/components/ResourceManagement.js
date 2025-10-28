@@ -9,7 +9,9 @@ const ResourceManagement = ({
   onProjectFilterChange,
   user, 
   isMobile,
-  onAddResource 
+  onAddResource,
+  onEditResource,
+  onDeleteResource
 }) => {
   return (
     <div style={{
@@ -73,6 +75,22 @@ const ResourceManagement = ({
                 <div><strong>更新日期：</strong>{resource.updateDate}</div>
                 <div><strong>说明：</strong>{resource.description}</div>
               </div>
+              {user.role === 'admin' && (
+                <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
+                  <button 
+                    onClick={() => onEditResource(resource)}
+                    style={{...actionButtonStyle, flex: 1}}
+                  >
+                    ✏️ 编辑
+                  </button>
+                  <button 
+                    onClick={() => onDeleteResource(resource.id)}
+                    style={{...deleteButtonStyle, flex: 1}}
+                  >
+                    🗑️ 删除
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -111,8 +129,18 @@ const ResourceManagement = ({
                   <td style={tableCellStyle}>{resource.description}</td>
                   {user.role === 'admin' && (
                     <td style={tableCellStyle}>
-                      <button style={actionButtonStyle}>编辑</button>
-                      <button style={deleteButtonStyle}>删除</button>
+                      <button 
+                        onClick={() => onEditResource(resource)}
+                        style={actionButtonStyle}
+                      >
+                        编辑
+                      </button>
+                      <button 
+                        onClick={() => onDeleteResource(resource.id)}
+                        style={deleteButtonStyle}
+                      >
+                        删除
+                      </button>
                     </td>
                   )}
                 </tr>

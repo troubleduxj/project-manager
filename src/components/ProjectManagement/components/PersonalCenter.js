@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { getUserAvatar } from '../../../utils/avatarGenerator';
+import MessageCenter from './MessageCenter';
 
-const PersonalCenter = ({ user, systemSettings, isMobile, onLogout, onUserUpdate }) => {
-  const [showDialog, setShowDialog] = useState(null); // 'username', 'password', 'email', 'avatar', null
+const PersonalCenter = ({ user, systemSettings, isMobile, onLogout, onUserUpdate, onMessageRead }) => {
+  const [showDialog, setShowDialog] = useState(null); // 'username', 'password', 'email', 'avatar', 'message-center', null
   const [formData, setFormData] = useState({
     username: '',
     oldPassword: '',
@@ -337,8 +338,8 @@ const PersonalCenter = ({ user, systemSettings, isMobile, onLogout, onUserUpdate
           <SettingItem 
             icon="🔔" 
             label="消息通知" 
-            description="管理通知偏好设置"
-            onClick={() => alert('通知设置功能开发中')}
+            description="查看消息和管理通知偏好设置"
+            onClick={() => setShowDialog('message-center')}
             isMobile={isMobile}
           />
           <SettingItem 
@@ -718,6 +719,16 @@ const PersonalCenter = ({ user, systemSettings, isMobile, onLogout, onUserUpdate
             </form>
           </div>
         </div>
+      )}
+
+      {/* MessageCenter组件 */}
+      {showDialog === 'message-center' && (
+        <MessageCenter
+          user={user}
+          isMobile={isMobile}
+          onClose={() => setShowDialog(null)}
+          onMessageRead={onMessageRead}
+        />
       )}
     </div>
   );

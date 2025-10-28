@@ -9,7 +9,9 @@ const MemberManagement = ({
   onProjectFilterChange,
   user, 
   isMobile,
-  onAddMember 
+  onAddMember,
+  onEditMember,
+  onDeleteMember
 }) => {
   return (
     <div style={{
@@ -87,6 +89,22 @@ const MemberManagement = ({
                 <div>🏢 {member.department}</div>
                 <div>📅 入职：{member.joinDate}</div>
               </div>
+              {user.role === 'admin' && (
+                <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
+                  <button 
+                    onClick={() => onEditMember(member)}
+                    style={{...actionButtonStyle, flex: 1}}
+                  >
+                    ✏️ 编辑
+                  </button>
+                  <button 
+                    onClick={() => onDeleteMember(member.id)}
+                    style={{...deleteButtonStyle, flex: 1}}
+                  >
+                    🗑️ 删除
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -127,8 +145,18 @@ const MemberManagement = ({
                   </td>
                   {user.role === 'admin' && (
                     <td style={tableCellStyle}>
-                      <button style={actionButtonStyle}>编辑</button>
-                      <button style={deleteButtonStyle}>移除</button>
+                      <button 
+                        onClick={() => onEditMember(member)}
+                        style={actionButtonStyle}
+                      >
+                        编辑
+                      </button>
+                      <button 
+                        onClick={() => onDeleteMember(member.id)}
+                        style={deleteButtonStyle}
+                      >
+                        删除
+                      </button>
                     </td>
                   )}
                 </tr>

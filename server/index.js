@@ -17,6 +17,7 @@ const emailRoutes = require('./routes/email');
 const foldersRoutes = require('./routes/folders');
 const statsRoutes = require('./routes/stats');
 const systemRoutes = require('./routes/system');
+const projectDetailsRoutes = require('./routes/projectDetails');
 
 const app = express();
 const server = http.createServer(app);
@@ -85,6 +86,7 @@ app.use('/api/comments', commentsRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/system', systemRoutes);
+app.use('/api/project-details', projectDetailsRoutes);
 
 // Socket.IO 连接处理
 io.on('connection', (socket) => {

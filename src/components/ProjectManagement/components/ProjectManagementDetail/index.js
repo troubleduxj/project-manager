@@ -229,6 +229,8 @@ const ProjectManagementDetail = ({ user, selectedProject, isMobile }) => {
   };
 
   const handleAddProject = () => {
+    console.log('🎯🎯🎯 handleAddProject 被调用! 准备打开 ProjectEditDialog 组件 🎯🎯🎯');
+    console.log('🔔 如果看到这个日志,说明按钮点击成功,即将显示编辑对话框');
     setEditForm({
       id: Date.now(),
       name: '',

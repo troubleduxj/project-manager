@@ -8,7 +8,9 @@ const ServerManagement = ({
   onProjectFilterChange,
   user, 
   isMobile,
-  onAddServer 
+  onAddServer,
+  onEditServer,
+  onDeleteServer
 }) => {
   return (
     <div style={{
@@ -93,13 +95,53 @@ const ServerManagement = ({
                 {server.status}
               </span>
             </div>
-            <div style={{ fontSize: '14px', color: '#555', lineHeight: '2' }}>
+            <div style={{ fontSize: '14px', color: '#555', lineHeight: '2', marginBottom: user.role === 'admin' ? '12px' : '0' }}>
               <div><strong>IP地址：</strong>{server.ip}</div>
               <div><strong>操作系统：</strong>{server.type}</div>
               <div><strong>CPU：</strong>{server.cpu}</div>
               <div><strong>内存：</strong>{server.memory}</div>
               <div><strong>硬盘：</strong>{server.disk}</div>
             </div>
+            {user.role === 'admin' && (
+              <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEditServer(server);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '6px 12px',
+                    background: '#3498db',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                >
+                  ✏️ 编辑
+                </button>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteServer(server.id);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '6px 12px',
+                    background: '#e74c3c',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                >
+                  🗑️ 删除
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

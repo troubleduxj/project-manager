@@ -1,258 +1,291 @@
 const express = require('express');
+const router = express.Router();
 const database = require('../database/db');
 const { authenticateToken } = require('../middleware/auth');
 
-const router = express.Router();
-
-// 获取项目消息列表
-router.get('/project/:id', authenticateToken, async (req, res) => {
+// 获取当前用户的消息列表
+router.get('/', authenticateToken, async (req, res) => {
   try {
-    const projectId = req.params.id;
-    const { role, userId } = req.user;
+    const userId = req.user.userId;
+    const { type, read_status, limit = 50, offset = 0 } = req.query;
 
-    // 权限检查
-    const project = await database.get('SELECT client_id, manager_id FROM projects WHERE id = ?', [projectId]);
-    if (!project) {
-      return res.status(404).json({ error: '项目不存在' });
-    }
-
-    if (role !== 'admin' && project.client_id !== userId && project.manager_id !== userId) {
-      return res.status(403).json({ error: '无权访问此项目消息' });
-    }
-
-    const messages = await database.all(`
-      SELECT m.*, u.full_name as sender_name, u.role as sender_role
+    let query = `
+      SELECT 
+        m.*,
+        sender.full_name as sender_name,
+        sender.avatar as sender_avatar,
+        p.name as project_name
       FROM messages m
-      JOIN users u ON m.sender_id = u.id
-      WHERE m.project_id = ?
-      ORDER BY m.created_at ASC
-    `, [projectId]);
+      LEFT JOIN users sender ON m.sender_id = sender.id
+      LEFT JOIN projects p ON m.project_id = p.id
+      WHERE m.receiver_id = ?
+    `;
 
-    // 标记消息为已读
-    await database.run(`
-      UPDATE messages 
-      SET is_read = 1 
-      WHERE project_id = ? AND sender_id != ?
-    `, [projectId, userId]);
+    const params = [userId];
 
-    res.json(messages);
+    // 按消息类型筛选
+    if (type) {
+      query += ` AND m.message_type = ?`;
+      params.push(type);
+    }
 
+    // 按已读状态筛选
+    if (read_status) {
+      if (read_status === 'unread') {
+        query += ` AND m.is_read = 0`;
+      } else if (read_status === 'read') {
+        query += ` AND m.is_read = 1`;
+      }
+    }
+
+    query += ` ORDER BY m.created_at DESC LIMIT ? OFFSET ?`;
+    params.push(parseInt(limit), parseInt(offset));
+
+    const messages = await database.all(query, params);
+
+    // 获取未读消息数量
+    const unreadCount = await database.get(
+      'SELECT COUNT(*) as count FROM messages WHERE receiver_id = ? AND is_read = 0',
+      [userId]
+    );
+
+    res.json({
+      messages,
+      unreadCount: unreadCount.count,
+      total: messages.length
+    });
   } catch (error) {
     console.error('获取消息列表错误:', error);
     res.status(500).json({ error: '获取消息列表失败' });
   }
 });
 
-// 发送消息
-router.post('/project/:id', authenticateToken, async (req, res) => {
-  try {
-    const projectId = req.params.id;
-    const { role, userId } = req.user;
-    const { message, messageType = 'text' } = req.body;
-
-    if (!message || message.trim() === '') {
-      return res.status(400).json({ error: '消息内容不能为空' });
-    }
-
-    // 权限检查
-    const project = await database.get('SELECT client_id, manager_id FROM projects WHERE id = ?', [projectId]);
-    if (!project) {
-      return res.status(404).json({ error: '项目不存在' });
-    }
-
-    if (role !== 'admin' && project.client_id !== userId && project.manager_id !== userId) {
-      return res.status(403).json({ error: '无权在此项目发送消息' });
-    }
-
-    const result = await database.run(`
-      INSERT INTO messages (project_id, sender_id, message, message_type)
-      VALUES (?, ?, ?, ?)
-    `, [projectId, userId, message.trim(), messageType]);
-
-    // 获取刚发送的消息详情
-    const newMessage = await database.get(`
-      SELECT m.*, u.full_name as sender_name, u.role as sender_role
-      FROM messages m
-      JOIN users u ON m.sender_id = u.id
-      WHERE m.id = ?
-    `, [result.id]);
-
-    res.status(201).json({
-      message: '消息发送成功',
-      data: newMessage
-    });
-
-  } catch (error) {
-    console.error('发送消息错误:', error);
-    res.status(500).json({ error: '发送消息失败' });
-  }
-});
-
 // 获取未读消息数量
-router.get('/unread/count', authenticateToken, async (req, res) => {
+router.get('/unread-count', authenticateToken, async (req, res) => {
   try {
-    const { role, userId } = req.user;
-    let query, params;
+    const userId = req.user.userId;
+    const result = await database.get(
+      'SELECT COUNT(*) as count FROM messages WHERE receiver_id = ? AND is_read = 0',
+      [userId]
+    );
 
-    if (role === 'admin') {
-      // 管理员查看所有项目的未读消息
-      query = `
-        SELECT COUNT(*) as count
-        FROM messages m
-        JOIN projects p ON m.project_id = p.id
-        WHERE m.sender_id != ? AND m.is_read = 0
-      `;
-      params = [userId];
-    } else {
-      // 客户只查看自己项目的未读消息
-      query = `
-        SELECT COUNT(*) as count
-        FROM messages m
-        JOIN projects p ON m.project_id = p.id
-        WHERE p.client_id = ? AND m.sender_id != ? AND m.is_read = 0
-      `;
-      params = [userId, userId];
-    }
-
-    const result = await database.get(query, params);
-    res.json({ unreadCount: result.count });
-
+    res.json({ count: result.count });
   } catch (error) {
     console.error('获取未读消息数量错误:', error);
     res.status(500).json({ error: '获取未读消息数量失败' });
   }
 });
 
-// 获取最近消息
-router.get('/recent', authenticateToken, async (req, res) => {
-  try {
-    const { role, userId } = req.user;
-    const limit = parseInt(req.query.limit) || 10;
-    let query, params;
-
-    if (role === 'admin') {
-      // 管理员查看所有项目的最近消息
-      query = `
-        SELECT m.*, u.full_name as sender_name, u.role as sender_role,
-               p.name as project_name
-        FROM messages m
-        JOIN users u ON m.sender_id = u.id
-        JOIN projects p ON m.project_id = p.id
-        ORDER BY m.created_at DESC
-        LIMIT ?
-      `;
-      params = [limit];
-    } else {
-      // 客户只查看自己项目的最近消息
-      query = `
-        SELECT m.*, u.full_name as sender_name, u.role as sender_role,
-               p.name as project_name
-        FROM messages m
-        JOIN users u ON m.sender_id = u.id
-        JOIN projects p ON m.project_id = p.id
-        WHERE p.client_id = ?
-        ORDER BY m.created_at DESC
-        LIMIT ?
-      `;
-      params = [userId, limit];
-    }
-
-    const messages = await database.all(query, params);
-    res.json(messages);
-
-  } catch (error) {
-    console.error('获取最近消息错误:', error);
-    res.status(500).json({ error: '获取最近消息失败' });
-  }
-});
-
 // 标记消息为已读
 router.put('/:id/read', authenticateToken, async (req, res) => {
   try {
+    const userId = req.user.userId;
     const messageId = req.params.id;
-    const { userId } = req.user;
 
-    // 检查消息是否存在以及权限
-    const message = await database.get(`
-      SELECT m.*, p.client_id, p.manager_id
-      FROM messages m
-      JOIN projects p ON m.project_id = p.id
-      WHERE m.id = ?
-    `, [messageId]);
+    // 验证消息是否属于当前用户
+    const message = await database.get(
+      'SELECT * FROM messages WHERE id = ? AND receiver_id = ?',
+      [messageId, userId]
+    );
 
     if (!message) {
-      return res.status(404).json({ error: '消息不存在' });
+      return res.status(404).json({ error: '消息不存在或无权访问' });
     }
 
-    // 只能标记别人发给自己的消息为已读
-    if (message.sender_id === userId) {
-      return res.status(400).json({ error: '不能标记自己的消息为已读' });
-    }
-
-    await database.run('UPDATE messages SET is_read = 1 WHERE id = ?', [messageId]);
+    await database.run(
+      'UPDATE messages SET is_read = 1, read_at = CURRENT_TIMESTAMP WHERE id = ?',
+      [messageId]
+    );
 
     res.json({ message: '消息已标记为已读' });
-
   } catch (error) {
     console.error('标记消息已读错误:', error);
     res.status(500).json({ error: '标记消息已读失败' });
   }
 });
 
-// 删除消息（仅发送者或管理员）
+// 标记所有消息为已读
+router.put('/read-all', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    await database.run(
+      'UPDATE messages SET is_read = 1, read_at = CURRENT_TIMESTAMP WHERE receiver_id = ? AND is_read = 0',
+      [userId]
+    );
+
+    res.json({ message: '所有消息已标记为已读' });
+  } catch (error) {
+    console.error('标记所有消息已读错误:', error);
+    res.status(500).json({ error: '标记所有消息已读失败' });
+  }
+});
+
+// 删除消息
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
+    const userId = req.user.userId;
     const messageId = req.params.id;
-    const { role, userId } = req.user;
 
-    const message = await database.get('SELECT * FROM messages WHERE id = ?', [messageId]);
+    // 验证消息是否属于当前用户
+    const message = await database.get(
+      'SELECT * FROM messages WHERE id = ? AND receiver_id = ?',
+      [messageId, userId]
+    );
+
     if (!message) {
-      return res.status(404).json({ error: '消息不存在' });
-    }
-
-    // 权限检查：只有发送者或管理员可以删除
-    if (role !== 'admin' && message.sender_id !== userId) {
-      return res.status(403).json({ error: '无权删除此消息' });
+      return res.status(404).json({ error: '消息不存在或无权访问' });
     }
 
     await database.run('DELETE FROM messages WHERE id = ?', [messageId]);
 
     res.json({ message: '消息删除成功' });
-
   } catch (error) {
     console.error('删除消息错误:', error);
     res.status(500).json({ error: '删除消息失败' });
   }
 });
 
-// 获取项目参与者列表（用于@功能）
-router.get('/project/:id/participants', authenticateToken, async (req, res) => {
+// 获取用户的通知设置
+router.get('/notification-settings', authenticateToken, async (req, res) => {
   try {
-    const projectId = req.params.id;
-    const { role, userId } = req.user;
+    const userId = req.user.userId;
 
-    // 权限检查
-    const project = await database.get('SELECT client_id, manager_id FROM projects WHERE id = ?', [projectId]);
-    if (!project) {
-      return res.status(404).json({ error: '项目不存在' });
+    let settings = await database.get(
+      'SELECT * FROM user_notification_settings WHERE user_id = ?',
+      [userId]
+    );
+
+    // 如果用户没有设置，创建默认设置
+    if (!settings) {
+      await database.run(`
+        INSERT INTO user_notification_settings (
+          user_id, email_notifications, task_notifications, 
+          project_notifications, document_notifications, 
+          system_notifications, comment_notifications
+        ) VALUES (?, 1, 1, 1, 1, 1, 1)
+      `, [userId]);
+
+      settings = await database.get(
+        'SELECT * FROM user_notification_settings WHERE user_id = ?',
+        [userId]
+      );
     }
 
-    if (role !== 'admin' && project.client_id !== userId && project.manager_id !== userId) {
-      return res.status(403).json({ error: '无权访问此项目参与者' });
-    }
-
-    const participants = await database.all(`
-      SELECT DISTINCT u.id, u.username, u.full_name, u.role
-      FROM users u
-      WHERE u.id = ? OR u.id = ?
-      ORDER BY u.role DESC, u.full_name ASC
-    `, [project.client_id, project.manager_id]);
-
-    res.json(participants);
-
+    res.json(settings);
   } catch (error) {
-    console.error('获取项目参与者错误:', error);
-    res.status(500).json({ error: '获取项目参与者失败' });
+    console.error('获取通知设置错误:', error);
+    res.status(500).json({ error: '获取通知设置失败' });
+  }
+});
+
+// 更新用户的通知设置
+router.put('/notification-settings', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const {
+      email_notifications,
+      task_notifications,
+      project_notifications,
+      document_notifications,
+      system_notifications,
+      comment_notifications
+    } = req.body;
+
+    // 检查用户是否已有设置
+    const existingSettings = await database.get(
+      'SELECT * FROM user_notification_settings WHERE user_id = ?',
+      [userId]
+    );
+
+    if (existingSettings) {
+      // 更新现有设置
+      const updateFields = [];
+      const updateValues = [];
+
+      if (email_notifications !== undefined) {
+        updateFields.push('email_notifications = ?');
+        updateValues.push(email_notifications ? 1 : 0);
+      }
+      if (task_notifications !== undefined) {
+        updateFields.push('task_notifications = ?');
+        updateValues.push(task_notifications ? 1 : 0);
+      }
+      if (project_notifications !== undefined) {
+        updateFields.push('project_notifications = ?');
+        updateValues.push(project_notifications ? 1 : 0);
+      }
+      if (document_notifications !== undefined) {
+        updateFields.push('document_notifications = ?');
+        updateValues.push(document_notifications ? 1 : 0);
+      }
+      if (system_notifications !== undefined) {
+        updateFields.push('system_notifications = ?');
+        updateValues.push(system_notifications ? 1 : 0);
+      }
+      if (comment_notifications !== undefined) {
+        updateFields.push('comment_notifications = ?');
+        updateValues.push(comment_notifications ? 1 : 0);
+      }
+
+      if (updateFields.length > 0) {
+        updateFields.push('updated_at = CURRENT_TIMESTAMP');
+        updateValues.push(userId);
+
+        await database.run(`
+          UPDATE user_notification_settings 
+          SET ${updateFields.join(', ')} 
+          WHERE user_id = ?
+        `, updateValues);
+      }
+    } else {
+      // 创建新设置
+      await database.run(`
+        INSERT INTO user_notification_settings (
+          user_id, email_notifications, task_notifications,
+          project_notifications, document_notifications,
+          system_notifications, comment_notifications
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      `, [
+        userId,
+        email_notifications ? 1 : 0,
+        task_notifications ? 1 : 0,
+        project_notifications ? 1 : 0,
+        document_notifications ? 1 : 0,
+        system_notifications ? 1 : 0,
+        comment_notifications ? 1 : 0
+      ]);
+    }
+
+    res.json({ message: '通知设置更新成功' });
+  } catch (error) {
+    console.error('更新通知设置错误:', error);
+    res.status(500).json({ error: '更新通知设置失败' });
+  }
+});
+
+// 创建系统消息(仅供管理员使用)
+router.post('/system', authenticateToken, async (req, res) => {
+  try {
+    const senderId = req.user.userId;
+    const { receiver_id, title, message, message_type = 'system' } = req.body;
+
+    if (!receiver_id || !message) {
+      return res.status(400).json({ error: '缺少必要参数' });
+    }
+
+    const result = await database.run(`
+      INSERT INTO messages (sender_id, receiver_id, title, message, message_type)
+      VALUES (?, ?, ?, ?, ?)
+    `, [senderId, receiver_id, title || '系统通知', message, message_type]);
+
+    res.status(201).json({
+      message: '消息发送成功',
+      messageId: result.id
+    });
+  } catch (error) {
+    console.error('发送系统消息错误:', error);
+    res.status(500).json({ error: '发送系统消息失败' });
   }
 });
 

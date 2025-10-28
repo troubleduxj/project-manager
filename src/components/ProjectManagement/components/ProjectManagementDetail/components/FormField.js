@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-// 表单字段组件
-const FormField = ({ label, value, onChange, type = 'text', required, options, fullWidth, rows, min, max, isMobile }) => {
+// 表单字段组件 - 使用 memo 优化，防止不必要的重新渲染导致失焦
+const FormField = memo(({ label, value, onChange, type = 'text', required, options, fullWidth, rows, min, max, placeholder }) => {
   const inputStyle = {
     width: '100%',
     padding: '12px 16px',
@@ -28,6 +28,7 @@ const FormField = ({ label, value, onChange, type = 'text', required, options, f
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
           rows={rows}
+          placeholder={placeholder}
           style={{
             ...inputStyle,
             resize: 'vertical',
@@ -45,10 +46,14 @@ const FormField = ({ label, value, onChange, type = 'text', required, options, f
           onFocus={(e) => e.target.style.borderColor = '#667eea'}
           onBlur={(e) => e.target.style.borderColor = '#e1e5e9'}
         >
-          <option value="">请选择</option>
-          {options?.map(opt => (
-            <option key={opt} value={opt}>{opt}</option>
-          ))}
+          {options?.map((opt, index) => {
+            // 支持两种格式: 字符串或对象 {value, label}
+            if (typeof opt === 'string') {
+              return <option key={opt} value={opt}>{opt}</option>;
+            } else {
+              return <option key={opt.value || index} value={opt.value}>{opt.label}</option>;
+            }
+          })}
         </select>
       ) : (
         <input
@@ -57,6 +62,7 @@ const FormField = ({ label, value, onChange, type = 'text', required, options, f
           onChange={(e) => onChange(e.target.value)}
           min={min}
           max={max}
+          placeholder={placeholder}
           style={inputStyle}
           onFocus={(e) => e.target.style.borderColor = '#667eea'}
           onBlur={(e) => e.target.style.borderColor = '#e1e5e9'}
@@ -64,7 +70,9 @@ const FormField = ({ label, value, onChange, type = 'text', required, options, f
       )}
     </div>
   );
-};
+});
+
+FormField.displayName = 'FormField';
 
 export default FormField;
 

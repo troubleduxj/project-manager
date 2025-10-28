@@ -19,6 +19,7 @@
     "dev": "concurrently \"npm run server:dev\" \"npm run start:dev\"",
     "dev:production": "concurrently \"npm run server\" \"npm run start\"",
     "init-db": "node server/init-db.js",
+    "create-test-messages": "node server/scripts/create-test-messages.js",
     "seed-data": "node server/seed-data.js",
     "setup": "npm run init-db && npm run seed-data",
     "kill-ports": "node scripts/kill-ports.js",

@@ -119,9 +119,16 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
       clientId,
       managerId,  // 允许指定项目经理
       priority = 'medium',
+      status = 'planning',
+      type,
       startDate,
       endDate,
-      budget
+      budget,
+      progress = 0,
+      department,
+      team,
+      customer,
+      isDefault = false
     } = req.body;
 
     if (!name) {
@@ -131,14 +138,37 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
     // 如果没有指定项目经理，默认为创建者
     const finalManagerId = managerId || req.user.userId;
 
+    // 如果设置为默认项目,先将其他项目的默认状态取消
+    if (isDefault) {
+      await database.run('UPDATE projects SET is_default = 0');
+    }
+
     const result = await database.run(`
-      INSERT INTO projects (name, description, client_id, manager_id, priority, start_date, end_date, budget)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [name, description, clientId, finalManagerId, priority, startDate, endDate, budget]);
+      INSERT INTO projects (
+        name, description, client_id, manager_id, priority, status, type,
+        start_date, end_date, budget, progress, department, team, customer, is_default
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      name, description, clientId, finalManagerId, priority, status, type,
+      startDate, endDate, budget, progress, department, team, customer, isDefault ? 1 : 0
+    ]);
+
+    // 获取刚创建的项目完整信息
+    const newProject = await database.get(`
+      SELECT p.*, 
+             c.full_name as client_name,
+             m.full_name as manager_name
+      FROM projects p
+      LEFT JOIN users c ON p.client_id = c.id
+      LEFT JOIN users m ON p.manager_id = m.id
+      WHERE p.id = ?
+    `, [result.id]);
 
     res.status(201).json({
       message: '项目创建成功',
-      projectId: result.id
+      projectId: result.id,
+      ...newProject  // 返回完整的项目信息
     });
 
   } catch (error) {
@@ -163,12 +193,22 @@ router.put('/:id', authenticateToken, requireProjectManagement, async (req, res)
       description,
       status,
       priority,
+      type,
       startDate,
       endDate,
       budget,
       progress,
-      managerId  // 允许修改项目经理
+      managerId,  // 允许修改项目经理
+      department,
+      team,
+      customer,
+      isDefault
     } = req.body;
+
+    // 如果设置为默认项目,先将其他项目的默认状态取消
+    if (isDefault) {
+      await database.run('UPDATE projects SET is_default = 0 WHERE id != ?', [projectId]);
+    }
 
     // 构建更新字段
     let updateFields = [];
@@ -178,11 +218,16 @@ router.put('/:id', authenticateToken, requireProjectManagement, async (req, res)
     if (description !== undefined) { updateFields.push('description = ?'); values.push(description); }
     if (status !== undefined) { updateFields.push('status = ?'); values.push(status); }
     if (priority !== undefined) { updateFields.push('priority = ?'); values.push(priority); }
+    if (type !== undefined) { updateFields.push('type = ?'); values.push(type); }
     if (startDate !== undefined) { updateFields.push('start_date = ?'); values.push(startDate); }
     if (endDate !== undefined) { updateFields.push('end_date = ?'); values.push(endDate); }
     if (budget !== undefined) { updateFields.push('budget = ?'); values.push(budget); }
     if (progress !== undefined) { updateFields.push('progress = ?'); values.push(progress); }
     if (managerId !== undefined) { updateFields.push('manager_id = ?'); values.push(managerId); }
+    if (department !== undefined) { updateFields.push('department = ?'); values.push(department); }
+    if (team !== undefined) { updateFields.push('team = ?'); values.push(team); }
+    if (customer !== undefined) { updateFields.push('customer = ?'); values.push(customer); }
+    if (isDefault !== undefined) { updateFields.push('is_default = ?'); values.push(isDefault ? 1 : 0); }
     
     if (updateFields.length === 0) {
       return res.status(400).json({ error: '没有要更新的字段' });
@@ -190,6 +235,10 @@ router.put('/:id', authenticateToken, requireProjectManagement, async (req, res)
     
     updateFields.push('updated_at = CURRENT_TIMESTAMP');
     values.push(projectId);
+
+    console.log('📝 更新项目 ID:', projectId);
+    console.log('📝 更新字段:', updateFields);
+    console.log('📝 更新值:', values);
 
     await database.run(`
       UPDATE projects 
@@ -200,8 +249,13 @@ router.put('/:id', authenticateToken, requireProjectManagement, async (req, res)
     res.json({ message: '项目更新成功' });
 
   } catch (error) {
-    console.error('更新项目错误:', error);
-    res.status(500).json({ error: '更新项目失败' });
+    console.error('❌ 更新项目错误:', error);
+    console.error('❌ 错误详情:', error.message);
+    res.status(500).json({ 
+      error: '更新项目失败',
+      message: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 

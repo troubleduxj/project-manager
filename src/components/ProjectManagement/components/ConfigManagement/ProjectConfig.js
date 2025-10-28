@@ -13,11 +13,11 @@ const ProjectConfig = ({ user }) => {
     },
     // 工作时间设置
     workingTime: {
-      workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-      workingHours: {
-        start: '09:00',
-        end: '18:00'
-      },
+    workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+    workingHours: {
+      start: '09:00',
+      end: '18:00'
+    },
       overtimeEnabled: false,
       breakTime: {
         start: '12:00',
@@ -193,7 +193,7 @@ const ProjectConfig = ({ user }) => {
       ...prev,
       workingTime: {
         ...prev.workingTime,
-        workingDays: checked 
+      workingDays: checked 
           ? [...prev.workingTime.workingDays, day]
           : prev.workingTime.workingDays.filter(d => d !== day)
       }
@@ -387,52 +387,52 @@ const ProjectConfig = ({ user }) => {
         </div>
 
         {/* 右侧内容 */}
-        <div style={{ display: 'grid', gap: '24px' }}>
+      <div style={{ display: 'grid', gap: '24px' }}>
           {/* 默认设置 */}
           {activeSection === 'defaultSettings' && (
-            <div style={{
-              background: 'white',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
+        <div style={{
+          background: 'white',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
               padding: '24px'
-            }}>
-              <h4 style={{ 
+        }}>
+          <h4 style={{ 
                 margin: '0 0 20px 0', 
-                color: '#333',
+            color: '#333',
                 fontSize: '18px',
-                fontWeight: '600'
-              }}>
+            fontWeight: '600'
+          }}>
                 📋 项目默认设置
-              </h4>
-              
+          </h4>
+          
               <div style={{ display: 'grid', gap: '20px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '500',
                       color: '#333',
-                      fontSize: '14px'
+                    fontSize: '14px'
                     }}>
                       默认优先级
-                    </label>
+                </label>
                     <select
                       value={config.defaultSettings.defaultPriority}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           defaultPriority: e.target.value
                         }
-                      }))}
-                      style={{
-                        width: '100%',
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
+                    fontSize: '14px'
+                  }}
                     >
                       {priorityOptions.map(option => (
                         <option key={option.value} value={option.value}>
@@ -440,113 +440,113 @@ const ProjectConfig = ({ user }) => {
                         </option>
                       ))}
                     </select>
-                  </div>
-
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+            </div>
+            
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: '500',
                       color: '#333',
                       fontSize: '14px'
                     }}>
                       默认状态
-                    </label>
-                    <select
+                </label>
+                <select
                       value={config.defaultSettings.defaultStatus}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           defaultStatus: e.target.value
                         }
-                      }))}
-                      style={{
-                        width: '100%',
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                    >
-                      {statusOptions.map(option => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+                    fontSize: '14px'
+                  }}
+                >
+                  {statusOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '500',
                       color: '#333',
                       fontSize: '14px'
-                    }}>
+                }}>
                       默认货币
-                    </label>
-                    <select
+                </label>
+                <select
                       value={config.defaultSettings.defaultCurrency}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           defaultCurrency: e.target.value
                         }
-                      }))}
-                      style={{
-                        width: '100%',
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                    >
+                    fontSize: '14px'
+                  }}
+                >
                       <option value="CNY">人民币 (¥)</option>
                       <option value="USD">美元 ($)</option>
                       <option value="EUR">欧元 (€)</option>
                       <option value="JPY">日元 (¥)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+                </select>
+              </div>
+              
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '500',
                       color: '#333',
                       fontSize: '14px'
-                    }}>
+                }}>
                       默认时区
-                    </label>
-                    <select
+                </label>
+                <select
                       value={config.defaultSettings.defaultTimeZone}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           defaultTimeZone: e.target.value
                         }
-                      }))}
-                      style={{
-                        width: '100%',
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                    >
-                      <option value="Asia/Shanghai">北京时间 (UTC+8)</option>
-                      <option value="UTC">世界标准时间 (UTC)</option>
-                      <option value="America/New_York">纽约时间 (UTC-5)</option>
-                      <option value="Europe/London">伦敦时间 (UTC+0)</option>
-                    </select>
-                  </div>
-                </div>
+                    fontSize: '14px'
+                  }}
+                >
+                  <option value="Asia/Shanghai">北京时间 (UTC+8)</option>
+                  <option value="UTC">世界标准时间 (UTC)</option>
+                  <option value="America/New_York">纽约时间 (UTC-5)</option>
+                  <option value="Europe/London">伦敦时间 (UTC+0)</option>
+                </select>
+          </div>
+        </div>
 
-                <div style={{ 
+        <div style={{
                   padding: '16px',
                   background: '#f8f9fa',
                   borderRadius: '6px',
@@ -557,15 +557,15 @@ const ProjectConfig = ({ user }) => {
                     alignItems: 'center',
                     gap: '10px',
                     fontSize: '14px',
-                    color: '#333',
+            color: '#333',
                     marginBottom: '12px',
                     cursor: 'pointer'
                   }}>
-                    <input
+                <input
                       type="checkbox"
                       checked={config.defaultSettings.autoAssignId}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           autoAssignId: e.target.checked
@@ -576,7 +576,7 @@ const ProjectConfig = ({ user }) => {
                     <span style={{ fontWeight: '500' }}>自动分配项目编号</span>
                   </label>
                   
-                  <label style={{
+                <label style={{ 
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
@@ -584,11 +584,11 @@ const ProjectConfig = ({ user }) => {
                     color: '#333',
                     cursor: 'pointer'
                   }}>
-                    <input
+                <input
                       type="checkbox"
                       checked={config.defaultSettings.enableVersionControl}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         defaultSettings: {
                           ...prev.defaultSettings,
                           enableVersionControl: e.target.checked
@@ -598,8 +598,8 @@ const ProjectConfig = ({ user }) => {
                     />
                     <span style={{ fontWeight: '500' }}>启用版本控制</span>
                   </label>
-                </div>
               </div>
+            </div>
             </div>
           )}
 
@@ -621,113 +621,113 @@ const ProjectConfig = ({ user }) => {
               </h4>
               
               <div style={{ display: 'grid', gap: '20px' }}>
-                <div>
-                  <label style={{ 
-                    display: 'block', 
-                    marginBottom: '12px', 
-                    fontWeight: '500',
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '12px', 
+                fontWeight: '500',
                     color: '#333',
                     fontSize: '14px'
-                  }}>
-                    工作日设置
-                  </label>
-                  <div style={{
+              }}>
+                工作日设置
+              </label>
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                flexWrap: 'wrap'
+              }}>
+                {weekdayOptions.map(day => (
+                  <label key={day.value} style={{
                     display: 'flex',
-                    gap: '12px',
-                    flexWrap: 'wrap'
-                  }}>
-                    {weekdayOptions.map(day => (
-                      <label key={day.value} style={{
-                        display: 'flex',
-                        alignItems: 'center',
+                    alignItems: 'center',
                         gap: '8px',
                         padding: '10px 16px',
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
                         background: config.workingTime.workingDays.includes(day.value) ? '#e3f2fd' : 'white',
                         borderColor: config.workingTime.workingDays.includes(day.value) ? '#1976d2' : '#e0e0e0',
                         transition: 'all 0.2s ease'
-                      }}>
-                        <input
-                          type="checkbox"
+                  }}>
+                    <input
+                      type="checkbox"
                           checked={config.workingTime.workingDays.includes(day.value)}
-                          onChange={(e) => handleWorkingDayChange(day.value, e.target.checked)}
+                      onChange={(e) => handleWorkingDayChange(day.value, e.target.checked)}
                           style={{ width: '16px', height: '16px' }}
-                        />
+                    />
                         <span style={{ fontSize: '14px', fontWeight: '500' }}>{day.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '500',
                       color: '#333',
                       fontSize: '14px'
-                    }}>
-                      工作开始时间
-                    </label>
-                    <input
-                      type="time"
+                }}>
+                  工作开始时间
+                </label>
+                <input
+                  type="time"
                       value={config.workingTime.workingHours.start}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         workingTime: {
                           ...prev.workingTime,
-                          workingHours: {
+                    workingHours: {
                             ...prev.workingTime.workingHours,
-                            start: e.target.value
+                      start: e.target.value
                           }
-                        }
-                      }))}
-                      style={{
-                        width: '100%',
+                    }
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ 
-                      display: 'block', 
-                      marginBottom: '8px', 
-                      fontWeight: '500',
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: '8px', 
+                  fontWeight: '500',
                       color: '#333',
                       fontSize: '14px'
-                    }}>
-                      工作结束时间
-                    </label>
-                    <input
-                      type="time"
+                }}>
+                  工作结束时间
+                </label>
+                <input
+                  type="time"
                       value={config.workingTime.workingHours.end}
                       onChange={(e) => setConfig(prev => ({
-                        ...prev,
+                    ...prev,
                         workingTime: {
                           ...prev.workingTime,
-                          workingHours: {
+                    workingHours: {
                             ...prev.workingTime.workingHours,
-                            end: e.target.value
+                      end: e.target.value
                           }
-                        }
-                      }))}
-                      style={{
-                        width: '100%',
+                    }
+                  }))}
+                  style={{
+                    width: '100%',
                         padding: '10px 12px',
-                        border: '1px solid #ddd',
+                    border: '1px solid #ddd',
                         borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
-                </div>
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+            </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <div>
@@ -794,8 +794,8 @@ const ProjectConfig = ({ user }) => {
                         fontSize: '14px'
                       }}
                     />
-                  </div>
-                </div>
+          </div>
+        </div>
 
                 <label style={{
                   display: 'flex',
@@ -828,21 +828,21 @@ const ProjectConfig = ({ user }) => {
 
           {/* 工作流程设置 */}
           {activeSection === 'workflow' && (
-            <div style={{
-              background: 'white',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
+        <div style={{
+          background: 'white',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
               padding: '24px'
-            }}>
-              <h4 style={{ 
+        }}>
+          <h4 style={{ 
                 margin: '0 0 20px 0', 
-                color: '#333',
+            color: '#333',
                 fontSize: '18px',
-                fontWeight: '600'
-              }}>
+            fontWeight: '600'
+          }}>
                 🔄 工作流程设置
-              </h4>
-              
+          </h4>
+          
               <div style={{ display: 'grid', gap: '16px' }}>
                 <div style={{
                   padding: '16px',
@@ -876,37 +876,37 @@ const ProjectConfig = ({ user }) => {
                   
                   {config.workflow.requireApproval && (
                     <div style={{ marginLeft: '28px' }}>
-                      <label style={{ 
-                        display: 'block', 
-                        marginBottom: '8px', 
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
                         fontSize: '13px',
                         color: '#666'
-                      }}>
+              }}>
                         审批级别数
-                      </label>
-                      <input
-                        type="number"
+              </label>
+              <input
+                type="number"
                         min="1"
                         max="5"
                         value={config.workflow.approvalLevels}
                         onChange={(e) => setConfig(prev => ({
-                          ...prev,
+                  ...prev,
                           workflow: {
                             ...prev.workflow,
                             approvalLevels: parseInt(e.target.value) || 1
                           }
-                        }))}
-                        style={{
+                }))}
+                style={{
                           width: '100px',
-                          padding: '8px 12px',
-                          border: '1px solid #ddd',
-                          borderRadius: '4px',
-                          fontSize: '14px'
-                        }}
-                      />
+                  padding: '8px 12px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '14px'
+                }}
+              />
                     </div>
                   )}
-                </div>
+            </div>
 
                 <label style={{
                   display: 'flex',
@@ -1000,137 +1000,137 @@ const ProjectConfig = ({ user }) => {
                     </div>
                   </div>
                 </label>
-
-                <div>
-                  <label style={{ 
-                    display: 'block', 
-                    marginBottom: '8px', 
-                    fontWeight: '500',
+            
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: '500',
                     color: '#333',
                     fontSize: '14px'
-                  }}>
+              }}>
                     进度计算方式
-                  </label>
-                  <select
+              </label>
+              <select
                     value={config.workflow.progressCalculation}
                     onChange={(e) => setConfig(prev => ({
-                      ...prev,
+                  ...prev,
                       workflow: {
                         ...prev.workflow,
                         progressCalculation: e.target.value
                       }
-                    }))}
-                    style={{
-                      width: '100%',
+                }))}
+                style={{
+                  width: '100%',
                       padding: '10px 12px',
-                      border: '1px solid #ddd',
+                  border: '1px solid #ddd',
                       borderRadius: '6px',
-                      fontSize: '14px'
-                    }}
-                  >
+                  fontSize: '14px'
+                }}
+              >
                     <option value="auto">自动计算（基于任务完成情况）</option>
                     <option value="manual">手动设置</option>
-                  </select>
-                </div>
-              </div>
+              </select>
             </div>
+          </div>
+        </div>
           )}
 
-          {/* 通知设置 */}
+        {/* 通知设置 */}
           {activeSection === 'notifications' && (
-            <div style={{
-              background: 'white',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
+        <div style={{
+          background: 'white',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
               padding: '24px'
-            }}>
-              <h4 style={{ 
+        }}>
+          <h4 style={{ 
                 margin: '0 0 20px 0', 
-                color: '#333',
+            color: '#333',
                 fontSize: '18px',
-                fontWeight: '600'
-              }}>
+            fontWeight: '600'
+          }}>
                 🔔 通知规则设置
-              </h4>
-              
+          </h4>
+          
               <div style={{ display: 'grid', gap: '16px' }}>
-                <label style={{
-                  display: 'flex',
-                  alignItems: 'center',
+            <label style={{
+              display: 'flex',
+              alignItems: 'center',
                   gap: '10px',
-                  fontSize: '14px',
+              fontSize: '14px',
                   color: '#333',
                   padding: '16px',
                   background: '#f8f9fa',
                   borderRadius: '6px',
                   cursor: 'pointer'
-                }}>
-                  <input
-                    type="checkbox"
+            }}>
+              <input
+                type="checkbox"
                     checked={config.notifications.projectCreation}
                     onChange={(e) => setConfig(prev => ({
-                      ...prev,
+                  ...prev,
                       notifications: {
                         ...prev.notifications,
                         projectCreation: e.target.checked
                       }
-                    }))}
+                }))}
                     style={{ width: '18px', height: '18px' }}
-                  />
+              />
                   <span style={{ fontWeight: '500' }}>项目创建通知</span>
-                </label>
+            </label>
 
-                <label style={{
-                  display: 'flex',
-                  alignItems: 'center',
+            <label style={{
+              display: 'flex',
+              alignItems: 'center',
                   gap: '10px',
-                  fontSize: '14px',
+              fontSize: '14px',
                   color: '#333',
                   padding: '16px',
                   background: '#f8f9fa',
                   borderRadius: '6px',
                   cursor: 'pointer'
-                }}>
-                  <input
-                    type="checkbox"
+            }}>
+              <input
+                type="checkbox"
                     checked={config.notifications.statusChange}
                     onChange={(e) => setConfig(prev => ({
-                      ...prev,
+                  ...prev,
                       notifications: {
                         ...prev.notifications,
                         statusChange: e.target.checked
                       }
-                    }))}
+                }))}
                     style={{ width: '18px', height: '18px' }}
-                  />
+              />
                   <span style={{ fontWeight: '500' }}>状态变更通知</span>
-                </label>
+            </label>
 
-                <label style={{
-                  display: 'flex',
-                  alignItems: 'center',
+            <label style={{
+              display: 'flex',
+              alignItems: 'center',
                   gap: '10px',
-                  fontSize: '14px',
+              fontSize: '14px',
                   color: '#333',
                   padding: '16px',
                   background: '#f8f9fa',
                   borderRadius: '6px',
                   cursor: 'pointer'
-                }}>
-                  <input
-                    type="checkbox"
+            }}>
+              <input
+                type="checkbox"
                     checked={config.notifications.milestoneReached}
                     onChange={(e) => setConfig(prev => ({
-                      ...prev,
+                  ...prev,
                       notifications: {
                         ...prev.notifications,
                         milestoneReached: e.target.checked
                       }
-                    }))}
+                }))}
                     style={{ width: '18px', height: '18px' }}
-                  />
+              />
                   <span style={{ fontWeight: '500' }}>里程碑达成通知</span>
-                </label>
+            </label>
 
                 <div style={{
                   padding: '16px',
@@ -1192,9 +1192,9 @@ const ProjectConfig = ({ user }) => {
                           fontSize: '14px'
                         }}
                       />
-                    </div>
+          </div>
                   )}
-                </div>
+        </div>
 
                 <div style={{
                   marginTop: '12px',
@@ -1264,21 +1264,21 @@ const ProjectConfig = ({ user }) => {
 
           {/* 文档管理设置（增强版 - 整合了DocumentConfig的所有功能） */}
           {activeSection === 'documentSettings' && (
-            <div style={{
-              background: 'white',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
+        <div style={{
+          background: 'white',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
               padding: '24px'
-            }}>
-              <h4 style={{ 
+        }}>
+          <h4 style={{ 
                 margin: '0 0 20px 0', 
-                color: '#333',
+            color: '#333',
                 fontSize: '18px',
-                fontWeight: '600'
-              }}>
+            fontWeight: '600'
+          }}>
                 📁 文档管理设置
-              </h4>
-              
+          </h4>
+          
               <div style={{ display: 'grid', gap: '24px' }}>
                 {/* 基础设置 */}
                 <div>
@@ -1341,8 +1341,8 @@ const ProjectConfig = ({ user }) => {
                       }}>
                         允许的文件类型
                       </label>
-                      <div style={{
-                        display: 'grid',
+          <div style={{
+            display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
                         gap: '10px'
                       }}>
@@ -1403,7 +1403,7 @@ const ProjectConfig = ({ user }) => {
                           fontSize: '14px'
                         }}
                       />
-                      <div style={{ 
+            <div style={{
                         fontSize: '12px', 
                         color: '#666', 
                         marginTop: '6px' 
@@ -1432,9 +1432,9 @@ const ProjectConfig = ({ user }) => {
                       gap: '10px',
                       fontSize: '14px',
                       color: '#333',
-                      padding: '16px',
-                      background: '#f8f9fa',
-                      borderRadius: '6px',
+              padding: '16px',
+              background: '#f8f9fa',
+              borderRadius: '6px',
                       cursor: 'pointer'
                     }}>
                       <input
@@ -1467,7 +1467,7 @@ const ProjectConfig = ({ user }) => {
                       }}>
                         支持预览的文件类型
                       </label>
-                      <div style={{
+              <div style={{ 
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
                         gap: '10px'
@@ -1501,10 +1501,10 @@ const ProjectConfig = ({ user }) => {
                             </label>
                           );
                         })}
-                      </div>
+              </div>
                     </div>
-                  </div>
-                </div>
+              </div>
+            </div>
 
                 {/* 高级功能 */}
                 <div>
@@ -1610,11 +1610,11 @@ const ProjectConfig = ({ user }) => {
                         </div>
                       </div>
                     </label>
-
-                    <div style={{
-                      padding: '16px',
-                      background: '#f8f9fa',
-                      borderRadius: '6px',
+            
+            <div style={{
+              padding: '16px',
+              background: '#f8f9fa',
+              borderRadius: '6px',
                       border: '1px solid #e1e5e9'
                     }}>
                       <label style={{ 
@@ -1662,7 +1662,7 @@ const ProjectConfig = ({ user }) => {
                     📊 存储统计
                   </h5>
                   
-                  <div style={{
+              <div style={{ 
                     padding: '16px',
                     background: '#fff3cd',
                     border: '1px solid #ffc107',
@@ -1689,14 +1689,14 @@ const ProjectConfig = ({ user }) => {
                     }}>
                       <div style={{ 
                         fontSize: '32px', 
-                        fontWeight: 'bold',
+                fontWeight: 'bold', 
                         marginBottom: '8px'
-                      }}>
+              }}>
                         {documentStats.totalDocs}
-                      </div>
+              </div>
                       <div style={{ fontSize: '14px', opacity: 0.9 }}>
                         总文档数量
-                      </div>
+              </div>
                     </div>
                     
                     <div style={{
@@ -1854,22 +1854,22 @@ const ProjectConfig = ({ user }) => {
                     <option value="50">50</option>
                     <option value="100">100</option>
                   </select>
-                </div>
-
-                <div style={{ 
-                  padding: '16px',
-                  background: '#f8f9fa',
-                  borderRadius: '6px',
+            </div>
+            
+            <div style={{
+              padding: '16px',
+              background: '#f8f9fa',
+              borderRadius: '6px',
                   border: '1px solid #e1e5e9'
-                }}>
-                  <div style={{ 
+            }}>
+              <div style={{ 
                     fontWeight: '600', 
                     marginBottom: '12px',
                     color: '#333',
                     fontSize: '14px'
                   }}>
                     显示内容
-                  </div>
+              </div>
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <label style={{
                       display: 'flex',
@@ -1962,12 +1962,12 @@ const ProjectConfig = ({ user }) => {
                       />
                       <span>紧凑模式</span>
                     </label>
-                  </div>
-                </div>
+              </div>
+            </div>
               </div>
             </div>
           )}
-
+            
           {/* 安全设置 */}
           {activeSection === 'security' && (
             <div style={{
@@ -2058,9 +2058,9 @@ const ProjectConfig = ({ user }) => {
                     gap: '10px',
                     fontSize: '14px',
                     color: '#333',
-                    padding: '16px',
-                    background: '#f8f9fa',
-                    borderRadius: '6px',
+              padding: '16px',
+              background: '#f8f9fa',
+              borderRadius: '6px',
                     cursor: 'pointer'
                   }}>
                     <input
@@ -2110,8 +2110,8 @@ const ProjectConfig = ({ user }) => {
                       <div style={{ fontWeight: '500' }}>启用数据加密</div>
                       <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
                         对敏感数据进行加密存储
-                      </div>
-                    </div>
+              </div>
+              </div>
                   </label>
 
                   <label style={{
@@ -2141,34 +2141,34 @@ const ProjectConfig = ({ user }) => {
                       <div style={{ fontWeight: '500' }}>启用审计日志</div>
                       <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
                         记录所有重要操作的日志
-                      </div>
-                    </div>
+            </div>
+          </div>
                   </label>
-                </div>
+        </div>
               </div>
             </div>
           )}
 
-          {/* 操作按钮 */}
-          <div style={{
+        {/* 操作按钮 */}
+        <div style={{
             background: 'white',
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             padding: '20px',
-            display: 'flex',
-            gap: '12px',
+          display: 'flex',
+          gap: '12px',
             justifyContent: 'flex-end'
-          }}>
-            <button
+        }}>
+          <button
               onClick={handleResetConfig}
-              disabled={loading}
-              style={{
+            disabled={loading}
+            style={{
                 padding: '12px 24px',
-                border: '1px solid #ddd',
+              border: '1px solid #ddd',
                 borderRadius: '6px',
-                background: 'white',
-                color: '#666',
-                cursor: loading ? 'not-allowed' : 'pointer',
+              background: 'white',
+              color: '#666',
+              cursor: loading ? 'not-allowed' : 'pointer',
                 fontSize: '14px',
                 fontWeight: '500',
                 transition: 'all 0.2s ease'
@@ -2185,18 +2185,18 @@ const ProjectConfig = ({ user }) => {
               }}
             >
               🔄 重置配置
-            </button>
-            <button
-              onClick={handleSaveConfig}
-              disabled={loading}
-              style={{
+          </button>
+          <button
+            onClick={handleSaveConfig}
+            disabled={loading}
+            style={{
                 padding: '12px 32px',
-                border: 'none',
+              border: 'none',
                 borderRadius: '6px',
                 background: loading ? '#ccc' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                fontSize: '14px',
+              color: 'white',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontSize: '14px',
                 fontWeight: '600',
                 boxShadow: loading ? 'none' : '0 4px 12px rgba(102, 126, 234, 0.3)',
                 transition: 'all 0.2s ease'
@@ -2213,7 +2213,7 @@ const ProjectConfig = ({ user }) => {
               }}
             >
               {loading ? '⏳ 保存中...' : '💾 保存全局配置'}
-            </button>
+          </button>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ async function initializeDatabase() {
         role VARCHAR(20) DEFAULT 'client',
         full_name VARCHAR(100),
         avatar VARCHAR(255),
+        status VARCHAR(20) DEFAULT 'active',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
@@ -30,12 +31,17 @@ async function initializeDatabase() {
         description TEXT,
         status VARCHAR(20) DEFAULT 'planning',
         priority VARCHAR(10) DEFAULT 'medium',
+        type VARCHAR(50),
         start_date DATE,
         end_date DATE,
         client_id INTEGER,
         manager_id INTEGER,
         progress INTEGER DEFAULT 0,
         budget DECIMAL(10,2),
+        department VARCHAR(50),
+        team VARCHAR(100),
+        customer VARCHAR(100),
+        is_default BOOLEAN DEFAULT 0,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (client_id) REFERENCES users(id),
@@ -111,15 +117,19 @@ async function initializeDatabase() {
     await database.run(`
       CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        project_id INTEGER NOT NULL,
+        project_id INTEGER,
         sender_id INTEGER NOT NULL,
+        receiver_id INTEGER NOT NULL,
         message TEXT NOT NULL,
-        message_type VARCHAR(20) DEFAULT 'text',
+        message_type VARCHAR(50) DEFAULT 'text',
+        title VARCHAR(200),
         attachment_path VARCHAR(500),
         is_read BOOLEAN DEFAULT 0,
+        read_at DATETIME,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (project_id) REFERENCES projects(id),
-        FOREIGN KEY (sender_id) REFERENCES users(id)
+        FOREIGN KEY (sender_id) REFERENCES users(id),
+        FOREIGN KEY (receiver_id) REFERENCES users(id)
       )
     `);
 
@@ -132,6 +142,64 @@ async function initializeDatabase() {
         description TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // 创建项目成员表
+    await database.run(`
+      CREATE TABLE IF NOT EXISTS project_members (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        project_id INTEGER NOT NULL,
+        user_id INTEGER,
+        name VARCHAR(100) NOT NULL,
+        role VARCHAR(50),
+        department VARCHAR(50),
+        phone VARCHAR(20),
+        email VARCHAR(100),
+        join_date DATE,
+        status VARCHAR(20) DEFAULT 'active',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+      )
+    `);
+
+    // 创建项目服务器表
+    await database.run(`
+      CREATE TABLE IF NOT EXISTS project_servers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        project_id INTEGER NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        ip VARCHAR(50),
+        type VARCHAR(50),
+        cpu VARCHAR(50),
+        memory VARCHAR(50),
+        disk VARCHAR(50),
+        status VARCHAR(20) DEFAULT 'running',
+        purpose VARCHAR(200),
+        remark TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+      )
+    `);
+
+    // 创建项目软件资料表
+    await database.run(`
+      CREATE TABLE IF NOT EXISTS project_resources (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        project_id INTEGER NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        version VARCHAR(50),
+        type VARCHAR(50),
+        license VARCHAR(100),
+        update_date DATE,
+        description TEXT,
+        download_url VARCHAR(500),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
       )
     `);
 

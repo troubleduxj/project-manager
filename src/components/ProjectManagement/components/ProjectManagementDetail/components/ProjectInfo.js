@@ -1,7 +1,26 @@
 import React from 'react';
 import { getStatusColor, getPriorityColor } from '../utils/filterUtils';
+import { getStatusText, getPriorityText } from '../utils/statusHelpers';
 
 const ProjectInfo = ({ projects, user, isMobile, onAddProject, onEditProject, onDeleteProject }) => {
+  // 🚨 组件加载时间戳 - 用于验证是否加载了最新代码
+  console.log('🕐 ProjectInfo 组件加载时间: 2025-01-27 23:45:00 - VERSION 3.0');
+  
+  const handleAddClick = () => {
+    const timestamp = new Date().toLocaleString('zh-CN');
+    console.log('═══════════════════════════════════════════════════');
+    console.log('🔴🔴🔴 ProjectInfo 组件: 添加项目按钮被点击! 🔴🔴🔴');
+    console.log('🕐 点击时间:', timestamp);
+    console.log('🔴 即将调用 onAddProject 函数');
+    console.log('🔴 onAddProject 类型:', typeof onAddProject);
+    console.log('═══════════════════════════════════════════════════');
+    if (onAddProject) {
+      onAddProject();
+    } else {
+      console.error('❌❌❌ onAddProject 函数未定义! ❌❌❌');
+    }
+  };
+
   return (
     <div>
       <div style={{
@@ -17,7 +36,7 @@ const ProjectInfo = ({ projects, user, isMobile, onAddProject, onEditProject, on
         </h3>
         {user.role === 'admin' && (
           <button
-            onClick={onAddProject}
+            onClick={handleAddClick}
             style={{
               padding: '8px 20px',
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -93,7 +112,7 @@ const ProjectInfo = ({ projects, user, isMobile, onAddProject, onEditProject, on
                   fontSize: '12px',
                   whiteSpace: 'nowrap'
                 }}>
-                  {project.status}
+                  {getStatusText(project.status)}
                 </span>
                 <span style={{
                   padding: '4px 12px',
@@ -103,7 +122,7 @@ const ProjectInfo = ({ projects, user, isMobile, onAddProject, onEditProject, on
                   fontSize: '12px',
                   whiteSpace: 'nowrap'
                 }}>
-                  {project.priority}
+                  {getPriorityText(project.priority)}
                 </span>
               </div>
             </div>

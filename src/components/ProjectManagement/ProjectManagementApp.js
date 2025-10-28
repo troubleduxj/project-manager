@@ -41,6 +41,7 @@ const ProjectManagementApp = () => {
   const [showDocCardForm, setShowDocCardForm] = useState(false);
   const [isMobile, setIsMobile] = useState(false); // 检测是否为移动端
   const [showMobileUserMenu, setShowMobileUserMenu] = useState(false); // 移动端用户菜单
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0); // 未读消息数量
   const [systemDocs, setSystemDocs] = useState([
     {
       id: 'quick-start',
@@ -210,6 +211,40 @@ const ProjectManagementApp = () => {
     
     setLoading(false);
   }, []);
+
+  // 获取未读消息数量函数
+  const fetchUnreadCount = async () => {
+    if (!user) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:7080/api/messages/unread-count', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUnreadMessageCount(data.count || 0);
+      }
+    } catch (error) {
+      console.error('获取未读消息数量失败:', error);
+    }
+  };
+
+  // 定期获取未读消息数量
+  useEffect(() => {
+    if (!user) return;
+
+    // 立即获取一次
+    fetchUnreadCount();
+
+    // 每30秒刷新一次
+    const interval = setInterval(fetchUnreadCount, 30000);
+
+    return () => clearInterval(interval);
+  }, [user]);
 
   // 监听系统设置变化，当配置管理页面更新设置后重新获取
   useEffect(() => {
@@ -1273,11 +1308,31 @@ const ProjectManagementApp = () => {
                         cursor: 'pointer',
                         fontSize: '16px',
                         fontWeight: '600',
-                        marginBottom: '-2px'
+                        marginBottom: '-2px',
+                        position: 'relative'
                       }}
                       onClick={() => setActiveTab('profile')}
                     >
                       👤 个人中心
+                      {/* 未读消息徽章 */}
+                      {unreadMessageCount > 0 && (
+                        <span style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '12px',
+                          background: '#dc3545',
+                          color: 'white',
+                          borderRadius: '12px',
+                          padding: '2px 8px',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          minWidth: '22px',
+                          textAlign: 'center',
+                          boxShadow: '0 2px 8px rgba(220, 53, 69, 0.4)'
+                        }}>
+                          {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
+                        </span>
+                      )}
                     </button>
                   </div>
                 )}
@@ -1410,6 +1465,7 @@ const ProjectManagementApp = () => {
                       // 同时刷新页面以更新所有显示的头像
                       window.location.reload();
                     }}
+                    onMessageRead={fetchUnreadCount}
                   />
                 )}
               </div>
@@ -1524,11 +1580,30 @@ const ProjectManagementApp = () => {
                 border: 'none',
                 cursor: 'pointer',
                 color: activeTab === 'profile' ? '#667eea' : '#6c757d',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                position: 'relative'
               }}
             >
               <span style={{ fontSize: '24px', marginBottom: '4px' }}>👤</span>
               <span style={{ fontSize: '11px', fontWeight: activeTab === 'profile' ? '600' : '400' }}>我的</span>
+              {/* 未读消息徽章 */}
+              {unreadMessageCount > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '4px',
+                  right: '20px',
+                  background: '#dc3545',
+                  color: 'white',
+                  borderRadius: '10px',
+                  padding: '2px 6px',
+                  fontSize: '10px',
+                  fontWeight: '600',
+                  minWidth: '18px',
+                  textAlign: 'center'
+                }}>
+                  {unreadMessageCount > 99 ? '99+' : unreadMessageCount}
+                </span>
+              )}
             </button>
           </div>
         )}
